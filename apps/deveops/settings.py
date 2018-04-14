@@ -40,11 +40,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'utils.apps.UtilsConfig',
+    'utils.apps.UtilsConfig',
     'authority.apps.AuthorityConfig',
     # 'softlib.apps.SoftlibConfig',
     'manager.apps.ManagerConfig',
     'ops.apps.OpsConfig',
+    'work.apps.WorkConfig',
     # 'application.apps.MagicConfig',
     # 'execute.apps.ExecuteConfig',
     # 'timeline.apps.TimelineConfig',
@@ -176,15 +177,12 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
 
-# Upload files
-UPLOAD_ROOT = PROJECT_DIR + '/upload'
-
 # Media files
-MEDIA_ROOT = PROJECT_DIR + '/media'
+MEDIA_ROOT = PROJECT_DIR + DEVEOPS_CONF.MEDIA_ROOT
 MEDIA_URL = '/media/'
 
-#Work space
-WORK_ROOT= PROJECT_DIR + '/workspace'
+#Ops dir
+OPS_ROOT = PROJECT_DIR + DEVEOPS_CONF.OPS_ROOT
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, "static"),
