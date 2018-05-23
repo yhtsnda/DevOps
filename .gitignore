@@ -1,4 +1,3 @@
-.DS_Store
 *.pyc
 *.pyo
 *.swp
@@ -9,12 +8,9 @@ dist
 build
 *.egg
 *.egg-info
-_mailinglist
-dump.rdb
 .tox
 .cache/
 .idea/
-db.sqlite3
 config.py
 migrations/
 *.log
@@ -24,3 +20,4 @@ tags
 jumpserver.iml
 .python-version
 tmp/*
+apps/deveops/conf.py
