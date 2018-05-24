@@ -14,7 +14,8 @@ class AliyunECS2Json(object):
         if data.__contains__('VpcAttributes'):
             if len(data['VpcAttributes']['PrivateIpAddress']['IpAddress'])!=0:
                 dt['connect_ip'] = data['VpcAttributes']['PrivateIpAddress']['IpAddress'][0]
-
+        else:
+            dt['connect_ip'] = '0.0.0.0'
         if data.__contains__('Tags'):
             tags_list = []
             for tag in data['Tags']['Tag']:

@@ -14,12 +14,12 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 
 application = ProtocolTypeRouter({
-    'manager': AuthMiddlewareStack(
-        URLRouter(
-            manager_routing
-        )
-    ),
-    'ops': AuthMiddlewareStack(
+    # '巍峨比赛噢参': AuthMiddlewareStack(
+    #     URLRouter(
+    #         manager_routing
+    #     )
+    # ),
+    'websocket': AuthMiddlewareStack(
         URLRouter(
             ops_routing
         )

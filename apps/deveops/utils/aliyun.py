@@ -89,3 +89,4 @@ def fetch_RDSs(page):
         return {}
     data = json.loads(response.decode('utf-8'))
     return data['Items']['DBInstance']
+

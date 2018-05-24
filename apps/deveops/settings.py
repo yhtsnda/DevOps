@@ -239,7 +239,7 @@ else:
 #CHANNEL
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [(
                 "redis://:{PASSWORD}@{HOST}:{PORT}/{SPACE}".format(
@@ -249,7 +249,7 @@ CHANNEL_LAYERS = {
                     SPACE=DEVEOPS_CONF.REDIS_SPACE)
             )],
         },
-        "ROUTING": "deveops.routing.routing",
+        # "ROUTING": "deveops.routing.routing",
     },
 }
 
