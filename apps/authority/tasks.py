@@ -9,6 +9,7 @@ from celery.task import periodic_task
 from celery.schedules import crontab
 from authority.models import Jumper
 from django.core.exceptions import ObjectDoesNotExist
+
 @periodic_task(run_every=crontab(minute='*'))
 def jumperStatusCheck():
     host = None

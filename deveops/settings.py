@@ -191,8 +191,8 @@ MEDIA_URL = '/media/'
 OPS_ROOT = PROJECT_DIR + DEVEOPS_CONF.OPS_ROOT
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, "static"),
-    os.path.join(PROJECT_DIR, "media"),
+    os.path.join(PROJECT_DIR, "DevOps/static"),
+    os.path.join(PROJECT_DIR, "DevOps/media"),
     os.path.join(PROJECT_DIR, "workpsace"),
 )
 

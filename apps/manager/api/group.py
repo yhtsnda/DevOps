@@ -88,6 +88,4 @@ class ManagerGroupSelectHostAPI(WebTokenAuthentication, generics.UpdateAPIView):
     queryset = models.Group.objects.all()
     permission_classes = [AllowAny,]
     # permission_classes = [GroupPermission.GroupUpdateRequiredMixin,IsAuthenticated]
-    lookup_field = 'uuid'
-    lookup_url_kwarg = 'pk'
 

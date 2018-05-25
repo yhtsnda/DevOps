@@ -14,7 +14,8 @@ import redis
 connect = redis.StrictRedis(port=REDIS_PORT,db=REDIS_SPACE)
 
 
-@periodic_task(run_every=crontab(minute='*'))
+# @periodic_task(run_every=crontab(minute='*'))
+@periodic_task(run_every=crontab(minute=57,hour=23))
 def aliyunECSInfoCatch():
     from deveops.utils import aliyun
     from deveops.conf import ALIYUN_PAGESIZE
@@ -68,7 +69,7 @@ def aliyunECSInfoCatch():
 
 
 # @periodic_task(run_every=crontab(minute=0,hour=[0,3,6,9,12,15,18,21]))
-@periodic_task(run_every=crontab(minute='*'))
+@periodic_task(run_every=crontab(minute=57,hour=23))
 def vmwareInfoCatch():
     from deveops.utils import vmware
     children = vmware.fetch_AllInstance()
