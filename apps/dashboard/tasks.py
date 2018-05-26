@@ -17,7 +17,7 @@ from deveops.utils import resolver
 connect = redis.StrictRedis(port=REDIS_PORT,db=REDIS_SPACE)
 
 # @periodic_task(run_every=crontab(minute='*'))
-@periodic_task(run_every=crontab(minute=57,hour=23))
+# @periodic_task(run_every=crontab(minute='*'))
 def aliyunECSExpiredInfoCatch():
     from dashboard.models import ExpiredAliyunECS
 
@@ -37,7 +37,7 @@ def aliyunECSExpiredInfoCatch():
 
 
 # @periodic_task(run_every=crontab(minute='*'))
-@periodic_task(run_every=crontab(minute=57,hour=23))
+# @periodic_task(run_every=crontab(minute='58',hour='*'))
 def aliyunRDSInfoCatch():
     from dashboard.models import ExpiredAliyunRDS
 
@@ -56,7 +56,7 @@ def aliyunRDSInfoCatch():
 
 
 # @periodic_task(run_every=crontab(minute='*'))
-@periodic_task(run_every=crontab(minute=57,hour=23))
+# @periodic_task(run_every=crontab(minute=57,hour=23))
 def managerStatusCatch():
     connect.delete('MANAGER_STATUS')
 
@@ -89,4 +89,8 @@ def managerStatusCatch():
 
     status_json = json.dumps(status)
     connect.set('MANAGER_STATUS',status_json)
+
+
+
+
 

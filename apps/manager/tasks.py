@@ -4,7 +4,6 @@
 # Author Yo
 # Email YoLoveLife@outlook.com
 
-from __future__ import absolute_import, unicode_literals
 from celery.task import periodic_task
 from celery.schedules import crontab
 from manager.models import Host,HostDetail,Position,System_Type
@@ -13,9 +12,9 @@ import redis
 
 connect = redis.StrictRedis(port=REDIS_PORT,db=REDIS_SPACE)
 
+from celery import shared_task
 
-# @periodic_task(run_every=crontab(minute='*'))
-@periodic_task(run_every=crontab(minute=57,hour=23))
+# @shared_task
 def aliyunECSInfoCatch():
     from deveops.utils import aliyun
     from deveops.conf import ALIYUN_PAGESIZE
@@ -69,13 +68,12 @@ def aliyunECSInfoCatch():
 
 
 # @periodic_task(run_every=crontab(minute=0,hour=[0,3,6,9,12,15,18,21]))
-@periodic_task(run_every=crontab(minute=57,hour=23))
+# @periodic_task(run_every=crontab(minute='*'))
 def vmwareInfoCatch():
     from deveops.utils import vmware
     children = vmware.fetch_AllInstance()
     position = None
     systype = None
-
     if Position.objects.filter(name__contains='集团内').exists():
         position = Position.objects.filter(name__contains='集团内').get()
     else:
@@ -89,7 +87,6 @@ def vmwareInfoCatch():
          'ipAddress': '10.100.63.69', 'sharedMemory': 1662, 'unshared': 24212668416L}
         '''
         list = vmware.FetchInfo(child)
-        print(list)
         status = 1
         if not list['powerState'] == 'poweredOn':
             status = 0

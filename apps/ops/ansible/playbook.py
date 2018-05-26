@@ -26,6 +26,7 @@ class Playbook(object):
         self.key = key
         self.stdout_callback = callback.AnsibleCallback(consumer, push_mission)
         self.consumer = consumer
+        print('ddr',host_list)
         self.inventory = InventoryManager(loader=self.loader, sources=host_list+',')
 
         self.variable_manager = VariableManager(loader=self.loader, inventory=self.inventory)

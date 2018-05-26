@@ -23,8 +23,10 @@ ENVIRONMENT=DEVEOPS_CONF.ENVIRONMENT
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_DIR = os.path.dirname(BASE_DIR)
-sys.path.append(PROJECT_DIR)
+APPS_DIR = BASE_DIR+'/apps'
+import sys
+sys.path.append(APPS_DIR)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -184,16 +186,16 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
 STATIC_URL = '/static/'
 
 # Media files
-MEDIA_ROOT = PROJECT_DIR + DEVEOPS_CONF.MEDIA_ROOT
+MEDIA_ROOT = BASE_DIR + DEVEOPS_CONF.MEDIA_ROOT
 MEDIA_URL = '/media/'
 
 #Ops dir
-OPS_ROOT = PROJECT_DIR + DEVEOPS_CONF.OPS_ROOT
+OPS_ROOT = BASE_DIR + DEVEOPS_CONF.OPS_ROOT
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, "DevOps/static"),
-    os.path.join(PROJECT_DIR, "DevOps/media"),
-    os.path.join(PROJECT_DIR, "workpsace"),
+    os.path.join(BASE_DIR, "DevOps/ops"),
+    os.path.join(BASE_DIR, "DevOps/static"),
+    os.path.join(BASE_DIR, "DevOps/media"),
 )
 
 #LOGIN
@@ -257,6 +259,7 @@ CHANNEL_LAYERS = {
 # CELERY
 # import djcelery
 # djcelery.setup_loader()
+from celery.schedules import crontab
 CELERY_BROKER_URL = 'redis://:{PASSWORD}@{HOST}:{PORT}/{SPACE}'.format(
     PASSWORD=DEVEOPS_CONF.REDIS_PASSWD,
     HOST=DEVEOPS_CONF.REDIS_HOST,
@@ -277,6 +280,9 @@ CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_REDIRECT_STDOUTS = True
 CELERY_REDIRECT_STDOUTS_LEVEL = "INFO"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
+CELERY_IMPORTS = (
+    'apps.manager.tasks',
+)
 
 
 

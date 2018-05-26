@@ -71,6 +71,16 @@ class CodeWorkRunAPI(CodeWorkStatusAPI):
             return Response({'detail':u'您无法执行不是您发起的工单'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
+class CodeWorkUploadFileAPI(generics.UpdateAPIView):
+    serializer_class = serializers.CodeWorkUploadFileSerializer
+    queryset = models.Code_Work.objects.all()
+    lookup_field = 'uuid'
+    lookup_url_kwarg = 'pk'
 
-
-
+    def update(self, request, *args, **kwargs):
+        user = request.user
+        codework = models.Code_Work.objects.filter(uuid=kwargs['pk']).get()
+        if codework.user.id == user.id:
+            return super(CodeWorkUploadFileAPI,self).update(request, *args, **kwargs)
+        else:
+            return Response({'detail':u'您无法对不是您发起的工单上传文件'}, status=status.HTTP_406_NOT_ACCEPTABLE)
