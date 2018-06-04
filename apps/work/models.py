@@ -58,7 +58,7 @@ class Code_Work(Work):
 
         if self.push_mission.files.count() !=0:
             for file in self.push_mission.files.all():
-                dict[file.name] = settings.MEDIA_ROOT+file.file.name
+                dict[file.name] = settings.MEDIA_ROOT+'/'+file.file.name
         return dict
 
     @property

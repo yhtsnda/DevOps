@@ -42,3 +42,27 @@ class AliyunRDS2Json(object):
 
 
 
+class AliyunKVStore2Json(object):
+    @staticmethod
+    def decode(data):
+        dt = {}
+        dt['status'] = data['InstanceStatus']
+        dt['recognition_id'] = data['InstanceId']
+        dt['instancename'] = data['InstanceName']
+        dt['connect_domain'] = data['ConnectionDomain']
+        dt['version'] = data['EngineVersion']
+        dt['expired'] = data['ExpiredDay']
+        dt['type'] = data['InstanceType']
+        return dt
+
+class AliyunMongoDB2Json(object):
+    @staticmethod
+    def decode(data):
+        dt = {}
+        dt['status'] = data['DBInstanceStatus']
+        dt['recognition_id'] = data['DBInstanceId']
+        dt['instancename'] = data['DBInstanceDescription']
+        dt['expired'] = data['ExpiredDay']
+        dt['type'] = data['Engine']
+        dt['version'] = data['EngineVersion']
+        return dt

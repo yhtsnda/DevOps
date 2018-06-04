@@ -45,7 +45,7 @@ class ManagerHostListByPageAPI(WebTokenAuthentication, generics.ListAPIView):
         if query is not None:
             return self.queryset.filter(connect_ip__icontains=query)
         else:
-            return self.queryset
+            return self.queryset.all()
 
 
 class ManagerHostCreateAPI(WebTokenAuthentication,generics.CreateAPIView):

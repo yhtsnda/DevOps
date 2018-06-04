@@ -179,7 +179,7 @@ USE_L10N = True
 USE_TZ = True
 
 # I18N translation
-LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'),]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -190,7 +190,13 @@ MEDIA_ROOT = BASE_DIR + DEVEOPS_CONF.MEDIA_ROOT
 MEDIA_URL = '/media/'
 
 #Ops dir
-OPS_ROOT = BASE_DIR + DEVEOPS_CONF.OPS_ROOT
+OPS_ROOT = MEDIA_ROOT + DEVEOPS_CONF.OPS_ROOT
+
+#Work dir
+WORK_ROOT = MEDIA_ROOT + DEVEOPS_CONF.WORK_ROOT
+
+#Dashboard dir
+DASHBOARD_ROOT = MEDIA_ROOT + DEVEOPS_CONF.DASHBOARD_ROOT
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "DevOps/ops"),
@@ -266,6 +272,7 @@ CELERY_BROKER_URL = 'redis://:{PASSWORD}@{HOST}:{PORT}/{SPACE}'.format(
     PORT=DEVEOPS_CONF.REDIS_PORT,
     SPACE=DEVEOPS_CONF.REDIS_SPACE,
 )
+
 CELERY_TASK_SERIALIZER = 'pickle'
 CELERY_RESULT_SERIALIZER = 'pickle'
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
@@ -280,10 +287,6 @@ CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_REDIRECT_STDOUTS = True
 CELERY_REDIRECT_STDOUTS_LEVEL = "INFO"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = False
-CELERY_IMPORTS = (
-    'apps.manager.tasks',
-)
-
 
 
 #FileUpload

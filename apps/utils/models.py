@@ -6,6 +6,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.conf import settings
+from deveops import conf
 from authority.models import ExtendUser
 import uuid
 __all__ = [
@@ -15,13 +16,12 @@ __all__ = [
 
 def upload_media_path(instance,filename):
     t = filename.split('.')
-    return str(instance.id) + '.' + t[-1]
+    return 'framework' + '/' + str(instance.uuid)
 
 
 def upload_file_path(instance,filename):
     t = filename.split('.')
-    return 'ops/' + str(instance.uuid) + '.' + t[-1]
-    # return str(instance.uuid) + '.' + t[-1]
+    return 'work/' + str(instance.uuid)
 
 
 class FILE(models.Model):

@@ -46,19 +46,22 @@ class MetaConsumer(WebsocketConsumer):
         vars_dict = work.vars_dict
         inventory = work.mission.group.users_list_byconnectip
 
+
         # 创建临时目录
-        TMP = settings.OPS_ROOT+str(work.uuid)+'/'
+        TMP = settings.OPS_ROOT+'/'+str(work.uuid)+'/'
         if not os.path.exists(TMP):
             os.makedirs(TMP)
 
         KEY = TMP+str(time.time())+'.key'
         # 判断该工单是否具备可执行的先决条件
-        if work.mission.group.key is not None and work.mission.group.jumper is not None:
+        try:
             self.write_key(work.mission.group.key, KEY)
-        else:
+            import uuid
+            isinstance(work.mission.group.jumper.uuid, uuid.UUID)
+        except AttributeError as attr_error:
             self.send('\r\n您执行的任务缺少必要的密钥或者跳板机请联系管理员解决')
             self.close()
-        print('123',work, play_source, inventory, KEY, vars_dict)
+
         threadSend = AnsibleRecvThread(work, play_source, inventory, KEY, vars_dict, self)
         threadSend.setDaemon = True
         threadSend.start()
