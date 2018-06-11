@@ -22,7 +22,7 @@ class Work(models.Model):
     info = models.TextField()
 
     class Meta:
-        ordering = ['id',]
+        ordering = ['id', ]
         abstract = True
 
 
@@ -54,8 +54,8 @@ class Code_Work(Work):
     def vars_dict(self):
         from django.conf import settings
         dict = self.mission.vars_dict
-        dict['BASE'] = settings.OPS_ROOT+str(self.uuid)+'/'
-
+        dict['BASE'] = settings.OPS_ROOT + str(self.uuid) + '/'
+        dict['TOOL'] = settings.TOOL_ROOT + '/'
         if self.push_mission.files.count() !=0:
             for file in self.push_mission.files.all():
                 dict[file.name] = settings.MEDIA_ROOT+'/'+file.file.name

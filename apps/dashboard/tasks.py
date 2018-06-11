@@ -22,7 +22,7 @@ from tool import smtp
 connect = redis.StrictRedis(port=REDIS_PORT,db=REDIS_SPACE)
 
 
-@periodic_task(run_every=crontab(minute=30,hour=1))
+@periodic_task(run_every=crontab(minute=30,hour=1,day_of_week="sunday"))
 def weeklyDashboard():
     import jinja2
     loader = jinja2.FileSystemLoader(settings.BASE_DIR+'/apps/dashboard/docs/', encoding='utf-8')
@@ -107,16 +107,16 @@ def weeklyDashboard():
         f.write(html)
 
     msg = '本周平台周报地址http://deveops.8531.cn:8888/media/dashboard/'+ datetime.datetime.now().strftime('%Y-%m-%d')+'/index.html'
-    smtp.sendMail('devEops平台运维周报', msg, ['yz2@8531.cn','wzz@8531.cn','xubin@8531.cn','xuchenliang@8531.cn'])
+    smtp.sendMail('devEops平台运维周报', msg, ['yz2@8531.cn'])#,'wzz@8531.cn','xubin@8531.cn','xuchenliang@8531.cn'])
 
 
-@periodic_task(run_every=crontab(minute=1,hour=1))
+@periodic_task(run_every=crontab(minute=1,hour=1,day_of_week="sunday"))
 def aliyunECSExpiredInfoCatch():
     ExpiredAliyunECS.objects.all().delete()
     countNumber = aliyun.fetch_ECSPage()
     threadNumber = int(countNumber/ALIYUN_PAGESIZE)
     now = datetime.datetime.now()
-    for num in range(1,threadNumber+1):
+    for num in range(1,threadNumber+2):
         data = aliyun.fetch_Instances(num)
         for dt in data:
             expiredTime = datetime.datetime.strptime(dt['ExpiredTime'],'%Y-%m-%dT%H:%MZ')
@@ -127,13 +127,13 @@ def aliyunECSExpiredInfoCatch():
                 ExpiredAliyunECS(**instance_data).save()
 
 
-@periodic_task(run_every=crontab(minute=2,hour=1))
+@periodic_task(run_every=crontab(minute=2,hour=1,day_of_week="sunday"))
 def aliyunRDSInfoCatch():
     ExpiredAliyunRDS.objects.all().delete()
     countNumber = aliyun.fetch_RDSPage()
     threadNumber = int(countNumber/ALIYUN_PAGESIZE)
     now = datetime.datetime.now()
-    for num in range(1,threadNumber+1):
+    for num in range(1,threadNumber+2):
         data = aliyun.fetch_RDSs(num)
         for dt in data:
             if not dt['DBInstanceId'][0:2] == 'rr':
@@ -143,13 +143,13 @@ def aliyunRDSInfoCatch():
                     ExpiredAliyunRDS(**resolver.AliyunRDS2Json.decode(dt)).save()
 
 
-@periodic_task(run_every=crontab(minute=3,hour=1))
+@periodic_task(run_every=crontab(minute=3,hour=1,day_of_week="sunday"))
 def aliyunKVStoreInfoCatch():
     ExpiredAliyunKVStore.objects.all().delete()
     countNumber = aliyun.fetch_KVStorePage()
     threadNumber = int(countNumber/ALIYUN_PAGESIZE)
     now = datetime.datetime.now()
-    for num in range(1,threadNumber+1):
+    for num in range(1,threadNumber+2):
         data = aliyun.fetch_KVStores(num)
         for dt in data:
             expiredTime = datetime.datetime.strptime(dt['EndTime'],'%Y-%m-%dT%H:%M:%SZ')
@@ -158,7 +158,7 @@ def aliyunKVStoreInfoCatch():
                 ExpiredAliyunKVStore(**resolver.AliyunKVStore2Json.decode(dt)).save()
 
 
-@periodic_task(run_every=crontab(minute=4,hour=1))
+@periodic_task(run_every=crontab(minute=4,hour=1,day_of_week="sunday"))
 def aliyunMongoDBInfoCatch():
     ExpiredAliyunMongoDB.objects.all().delete()
     countNumber = aliyun.fetch_MongoDBPage()
@@ -166,7 +166,7 @@ def aliyunMongoDBInfoCatch():
     if threadNumber ==0:
         threadNumber= threadNumber+1
     now = datetime.datetime.now()
-    for num in range(1,threadNumber+1):
+    for num in range(1,threadNumber+2):
         data = aliyun.fetch_MongoDBs(num)
         for dt in data:
             expiredTime = datetime.datetime.strptime(dt['ExpireTime'],'%Y-%m-%dT%H:%MZ')
@@ -175,7 +175,7 @@ def aliyunMongoDBInfoCatch():
                 ExpiredAliyunMongoDB(**resolver.AliyunMongoDB2Json.decode(dt)).save()
 
 
-@periodic_task(run_every=crontab(minute=1,hour=10))
+@periodic_task(run_every=crontab(minute=10,hour=1))
 def managerStatusCatch():
     connect.delete('MANAGER_STATUS')
 

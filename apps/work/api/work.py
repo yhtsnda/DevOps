@@ -3,7 +3,7 @@
 # Time 18-3-19
 # Author Yo
 # Email YoLoveLife@outlook.com
-from .. import models, serializers
+from .. import models, serializers,filter
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.pagination import PageNumberPagination
@@ -27,7 +27,7 @@ class CodeWorkListByPageAPI(WebTokenAuthentication, generics.ListAPIView):
     queryset = models.Code_Work.objects.all().order_by('-id')
     permission_classes = [AllowAny, ]
     pagination_class = CodeWorkPagination
-    filter_fields = '__all__'
+    filter_class = filter.CodeWorkFilter
 
 
 class CodeWorkCreateAPI(WebTokenAuthentication, generics.CreateAPIView):

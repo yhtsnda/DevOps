@@ -11,7 +11,7 @@ from ops.urls.socket_urls import ops_routing
 
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "deveops.settings")    #这里填的是你的配置文件settings.py的位置
 from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.auth import AuthMiddlewareStack
+from channels.auth import AuthMiddlewareStack,SessionMiddleware
 
 application = ProtocolTypeRouter({
     # '巍峨比赛噢参': AuthMiddlewareStack(
@@ -19,7 +19,7 @@ application = ProtocolTypeRouter({
     #         manager_routing
     #     )
     # ),
-    'websocket': AuthMiddlewareStack(
+    'websocket': SessionMiddleware(
         URLRouter(
             ops_routing
         )
